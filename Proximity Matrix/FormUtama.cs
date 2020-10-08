@@ -14,15 +14,15 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace Proximity_Matrix
 {
-    public partial class Form1 : Form
+    public partial class FormUtama : Form
     {
         OpenFileDialog open;
-        public Form1()
+        public FormUtama()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonLoad_Click(object sender, EventArgs e)
         {
             
             open = new OpenFileDialog
@@ -36,7 +36,7 @@ namespace Proximity_Matrix
            
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonShow_Click(object sender, EventArgs e)
         {
             ArrayList list = new ArrayList();
             try
@@ -79,7 +79,7 @@ namespace Proximity_Matrix
             }
             catch(Exception error)
             {
-                MessageBox.Show("Tidak Bisa Menampilkan FIle", "Error");
+                MessageBox.Show("Tidak Bisa Menampilkan File. Pesan Error: " + error , "Error");
             }
             
            
