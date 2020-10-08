@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proximity_Matrix
+namespace Proximity_Matrix_LIB
 {
-    class Person
+    public class Person
     {
         private string refund;
         private string marital;
@@ -25,5 +25,6 @@ namespace Proximity_Matrix
         public string Marital { get => marital; set => marital = value; }
         public int Tax { get => tax; set => tax = value; }
         public string Cheat { get => cheat; set => cheat = value; }
+
     }
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
+using Proximity_Matrix_LIB;
 
 namespace Proximity_Matrix
 {
