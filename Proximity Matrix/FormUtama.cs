@@ -18,6 +18,8 @@ namespace Proximity_Matrix
     public partial class FormUtama : Form
     {
         OpenFileDialog open;
+        List<Person> listOfData = new List<Person>();        
+
         public FormUtama()
         {
             InitializeComponent();
@@ -33,16 +35,9 @@ namespace Proximity_Matrix
             };
 
             open.ShowDialog();
-        
-           
-        }
 
-        private void buttonShow_Click(object sender, EventArgs e)
-        {
-            ArrayList list = new ArrayList();
             try
             {
-
                 if (open.FileName != "")
                 {
                     using (TextFieldParser csvParser = new TextFieldParser(open.FileName))
@@ -53,25 +48,35 @@ namespace Proximity_Matrix
 
                         csvParser.ReadLine();
 
-
-
                         while (!csvParser.EndOfData)
                         {
                             string[] fields = csvParser.ReadFields();
                             Person person = new Person(fields[0], fields[1], int.Parse(fields[2]), fields[3]);
-                            list.Add(person);
+                            listOfData.Add(person);
                         }
-
-
                     }
+                }
+                else
+                {
+                    MessageBox.Show("File Kosong", "Error");
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Terjadi sebuah kesalahan. Pesan Error: " + error, "Error");
+            }
+        }
 
-                    if (list.Count > 0)
+        private void buttonShow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (open.FileName != "")
+                {
+                    if (listOfData.Count > 0)
                     {
-                        dataGridViewCSV.DataSource = list;
+                        dataGridViewCSV.DataSource = listOfData;
                     }
-
-
-
                 }
                 else
                 {
@@ -84,6 +89,28 @@ namespace Proximity_Matrix
             }
             
            
+        }
+
+        private void FormUtama_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonProximity_Click(object sender, EventArgs e)
+        {
+            if (open.FileName != "")
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("File Kosong", "Error");
+            }
+        }
+
+        private void buttonBestSplit_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString();
         }
     }
 }
