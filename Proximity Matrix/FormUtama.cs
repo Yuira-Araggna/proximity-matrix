@@ -100,7 +100,10 @@ namespace Proximity_Matrix
         {
             if (open.FileName != "")
             {
-
+                foreach (string[] test in ProximityMatrix.Result(listOfData))
+                {
+                    dataGridViewCSV.DataSource = test;
+                }
             }
             else
             {

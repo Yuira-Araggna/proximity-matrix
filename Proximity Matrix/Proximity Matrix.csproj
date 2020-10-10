@@ -34,7 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Proximity_Matrix_LIB">
+    <Reference Include="Proximity_Matrix_LIB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Proximity_Matrix_LIB\bin\Debug\Proximity_Matrix_LIB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
