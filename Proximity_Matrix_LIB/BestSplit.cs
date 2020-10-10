@@ -22,7 +22,7 @@ namespace Proximity_Matrix_LIB
 
             foreach (Person person in inputListPerson)
             {
-                if (person.Cheat.ToLower() == "yes")
+                if (person.Class.ToLower() == "yes")
                 {
                     yes++;
                 }
@@ -47,11 +47,11 @@ namespace Proximity_Matrix_LIB
 
             foreach (Person person in inputListPerson)
             {
-                if (person.Refund.ToLower() == "yes" && person.Cheat.ToLower() == "yes")
+                if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "yes")
                 {
                     n0c0++;
                 }
-                else if (person.Refund.ToLower() == "yes" && person.Cheat.ToLower() == "no")
+                else if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "no")
                 {
                     n0c1++;
                 }                
@@ -70,11 +70,11 @@ namespace Proximity_Matrix_LIB
 
             foreach (Person person in inputListPerson)
             {
-                if (person.Refund.ToLower() == "no" && person.Cheat.ToLower() == "yes")
+                if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "yes")
                 {
                     n1c0++;
                 }
-                else if (person.Refund.ToLower() == "no" && person.Cheat.ToLower() == "no")
+                else if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "no")
                 {
                     n1c1++;
                 }
@@ -106,11 +106,11 @@ namespace Proximity_Matrix_LIB
             n0c1 = 0;
             foreach (Person person in inputListPerson)
             {
-                if (person.Marital.ToLower() == "single" && person.Cheat.ToLower() == "yes")
+                if (person.Feat2.ToLower() == "single" && person.Class.ToLower() == "yes")
                 {
                     n0c0++;
                 }
-                else if (person.Marital.ToLower() == "single" && person.Cheat.ToLower() == "no")
+                else if (person.Feat2.ToLower() == "single" && person.Class.ToLower() == "no")
                 {
                     n0c1 = 0;
                 }
@@ -128,11 +128,11 @@ namespace Proximity_Matrix_LIB
             n1c1 = 0;
             foreach (Person person in inputListPerson)
             {
-                if (person.Marital.ToLower() == "married" && person.Cheat.ToLower() == "yes")
+                if (person.Feat2.ToLower() == "married" && person.Class.ToLower() == "yes")
                 {
                     n1c0++;
                 }
-                else if (person.Marital.ToLower() == "married" && person.Cheat.ToLower() == "no")
+                else if (person.Feat2.ToLower() == "married" && person.Class.ToLower() == "no")
                 {
                     n1c1 = 0;
                 }
@@ -150,11 +150,11 @@ namespace Proximity_Matrix_LIB
             n2c1 = 0;
             foreach (Person person in inputListPerson)
             {
-                if (person.Marital.ToLower() == "divorced" && person.Cheat.ToLower() == "yes")
+                if (person.Feat2.ToLower() == "divorced" && person.Class.ToLower() == "yes")
                 {
                     n2c0++;
                 }
-                else if (person.Marital.ToLower() == "divorced" && person.Cheat.ToLower() == "no")
+                else if (person.Feat2.ToLower() == "divorced" && person.Class.ToLower() == "no")
                 {
                     n2c1 = 0;
                 }
@@ -190,11 +190,11 @@ namespace Proximity_Matrix_LIB
 
             foreach (Person person in inputListPerson)
             {
-                if (person.Tax <= inputSplit && person.Cheat.ToLower() == "yes")
+                if (person.Feat3 <= inputSplit && person.Class.ToLower() == "yes")
                 {
                     n0c0++;
                 }
-                else if (person.Tax <= inputSplit && person.Cheat.ToLower() == "no")
+                else if (person.Feat3 <= inputSplit && person.Class.ToLower() == "no")
                 {
                     n0c1++;
                 }
@@ -227,11 +227,11 @@ namespace Proximity_Matrix_LIB
 
             foreach (Person person in inputListPerson)
             {
-                if (person.Tax > inputSplit && person.Cheat.ToLower() == "yes")
+                if (person.Feat3 > inputSplit && person.Class.ToLower() == "yes")
                 {
                     n1c0++;
                 }
-                else if (person.Tax > inputSplit && person.Cheat.ToLower() == "no")
+                else if (person.Feat3 > inputSplit && person.Class.ToLower() == "no")
                 {
                     n1c1++;
                 }
@@ -261,15 +261,15 @@ namespace Proximity_Matrix_LIB
 
             inputListPerson.Sort(delegate (Person x, Person y)
             {
-                if (x.Tax == 0 && y.Tax == 0) return 0;
-                else if (x.Tax == 0) return -1;
-                else if (y.Tax == 0) return 1;
-                else return x.Tax.CompareTo(y.Tax);
+                if (x.Feat3 == 0 && y.Feat3 == 0) return 0;
+                else if (x.Feat3 == 0) return -1;
+                else if (y.Feat3 == 0) return 1;
+                else return x.Feat3.CompareTo(y.Feat3);
             });
 
             for (int i = 1; i < inputListPerson.Count; i++)
             {
-                int split = (inputListPerson[i - 1].Tax + inputListPerson[i].Tax) / 2;
+                int split = (inputListPerson[i - 1].Feat3 + inputListPerson[i].Feat3) / 2;
                 double giniNode0 = CalcGiniNode0Feat3(inputListPerson, split);
                 double giniNode1 = CalcGiniNode1Feat3(inputListPerson, split);
 
