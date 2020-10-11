@@ -31,9 +31,8 @@ namespace Proximity_Matrix_LIB
                     no++;
                 }
             }
-            int totalYesNo = yes + no;
-            double giniParent = 1 - Math.Pow((double)yes / totalYesNo, 2) - Math.Pow((double)no / totalYesNo, 2);
-            parentCount = totalYesNo;
+            double giniParent = 1 - Math.Pow((double)yes / (yes + no), 2) - Math.Pow((double)no / (yes + no), 2);
+            parentCount = yes + no;
             return giniParent;
         }
         #endregion
