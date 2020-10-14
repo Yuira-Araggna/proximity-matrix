@@ -8,6 +8,7 @@ namespace Proximity_Matrix_LIB
 {
     public class Person
     {
+     
         private string feat1;
         private string feat2;
         private int feat3;
