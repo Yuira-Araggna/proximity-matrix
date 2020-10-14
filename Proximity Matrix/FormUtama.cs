@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +18,10 @@ namespace Proximity_Matrix
 {
     public partial class FormUtama : Form
     {
+    
         OpenFileDialog open;
-        List<Person> listOfData = new List<Person>();        
+        List<Person> listOfData = new List<Person>();
+        DataTable table;
 
         public FormUtama()
         {
@@ -104,10 +107,29 @@ namespace Proximity_Matrix
         {
             if (open.FileName != "")
             {
-                foreach (string[] test in ProximityMatrix.Result(listOfData))
+                table = new DataTable();
+                double[,] test = ProximityMatrix.mixedProxDist(listOfData);
+                    
+                  
+                for (int j = 0; j < test.GetLength(0); j++)
                 {
-                    dataGridViewCSV.DataSource = test;
+
+                    table.Columns.Add();
                 }
+                    
+                for (int k = 0; k < test.GetLength(1); k++)
+                {
+                    DataRow row = table.NewRow();
+
+                    // iterate over all columns to fill the row
+                    for (int i = 0; i < test.GetLength(0); i++)
+                    {
+                        row[i] = Math.Round( test[i, k],3);
+                    } 
+                    table.Rows.Add(row);   
+                }
+                dataGridViewCSV.DataSource = table;
+
             }
             else
             {
@@ -118,6 +140,45 @@ namespace Proximity_Matrix
         private void buttonBestSplit_Click(object sender, EventArgs e)
         {
             textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Title = "Save List";
+                saveFileDialog.CheckPathExists = true;
+                saveFileDialog.DefaultExt = ".txt";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string line = "";
+                    line += "\n";
+                    foreach (DataColumn dc in table.Columns)
+                    {
+                        line += dc.ColumnName + "\t";
+                    }
+                    line += "\n";
+                    foreach (DataRow dr in table.Rows)
+                    {
+                        foreach (DataColumn dc in table.Columns)
+                        {
+                            line +=  dr[dc].ToString() + "\t" ;
+                        }
+                        line += "\n";
+                    }
+                    FileStream file = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+                    BinaryFormatter binary = new BinaryFormatter();
+                    binary.Serialize(file, line );
+                    file.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+           
         }
     }
 }
