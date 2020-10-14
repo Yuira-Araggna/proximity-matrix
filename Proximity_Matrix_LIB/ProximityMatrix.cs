@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,22 +9,23 @@ namespace Proximity_Matrix_LIB
 {
     public static class ProximityMatrix
     {
+       
         //proximity dataset1
         static double[,] arrNominalProx;
         static double[,] arrNumericProx;
         static double[,] arrMixedProx;
 
-        public static void nominalProxDist(List<Person> inputListPerson)
+        public static void  nominalProxDist(List<Person> inputListPerson)
         {
             arrNominalProx = new double[inputListPerson.Count, inputListPerson.Count];
             int nominalAttr = 2;
 
             for (int i = 0; i < inputListPerson.Count; i++)
             {
-                int matchingAttr = 0;
                 for (int j = 0; j < inputListPerson.Count; j++)
                 {
-                    if(inputListPerson[i].Feat1 == inputListPerson[j].Feat1 && inputListPerson[i].Feat2 == inputListPerson[j].Feat2)
+                    int matchingAttr = 0;
+                    if (inputListPerson[i].Feat1 == inputListPerson[j].Feat1 && inputListPerson[i].Feat2 == inputListPerson[j].Feat2)
                     {
                         matchingAttr = +2;
                     }
@@ -37,11 +39,13 @@ namespace Proximity_Matrix_LIB
                     arrNominalProx[i, j] = proximityVal;
                 }
             }
+          
         }
 
         public static void numericProxDist(List<Person> inputListPerson)
         {
-            arrNominalProx = new double[inputListPerson.Count, inputListPerson.Count];
+            nominalProxDist(inputListPerson);
+            arrNumericProx = new double[inputListPerson.Count, inputListPerson.Count];
 
             int min, max;
             min = inputListPerson[0].Feat3;
@@ -64,17 +68,19 @@ namespace Proximity_Matrix_LIB
                 {
                     int iFeat3 = inputListPerson[i].Feat3;
                     int jFeat3 = inputListPerson[j].Feat3;
-                    double proximityVal = Math.Pow(iFeat3 - jFeat3, 2)/(max - min);
+                    double proximityVal = Math.Pow(iFeat3 - jFeat3, 2) / (max - min);
                     arrNumericProx[i, j] = proximityVal;
                 }
             }
+           
         }
 
-        public static void mixedProxDist(List<Person> inputListPerson)
+        public static double[,] mixedProxDist(List<Person> inputListPerson)
         {
+            numericProxDist(inputListPerson);
             arrMixedProx = new double[inputListPerson.Count, inputListPerson.Count];
             int validF1F2, validF3;
-
+            
             for (int i = 0; i < inputListPerson.Count; i++)
             {
                 for (int j = 0; j < inputListPerson.Count; j++)
@@ -101,6 +107,7 @@ namespace Proximity_Matrix_LIB
                     arrMixedProx[i, j] = proximityVal;
                 }
             }
+            return arrMixedProx;
         }
 
         /*public static List<string[]> Result(List<Person> inputList)
