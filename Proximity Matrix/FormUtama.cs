@@ -27,7 +27,10 @@ namespace Proximity_Matrix
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
-            
+            if (listOfData.Count != 0)
+            {
+                listOfData.Clear();
+            }
             open = new OpenFileDialog
             {
                 InitialDirectory = Directory.GetCurrentDirectory(),
@@ -71,6 +74,7 @@ namespace Proximity_Matrix
         {
             try
             {
+                dataGridViewCSV.DataSource = null;
                 if (open.FileName != "")
                 {
                     if (listOfData.Count > 0)
