@@ -142,12 +142,14 @@ namespace Proximity_Matrix
             textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSimpanHasil_Click(object sender, EventArgs e)
         {
             try
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Title = "Save List";
+                saveFileDialog.FileName = "Hasil.txt";
+                saveFileDialog.Filter = "Txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 saveFileDialog.CheckPathExists = true;
                 saveFileDialog.DefaultExt = ".txt";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
