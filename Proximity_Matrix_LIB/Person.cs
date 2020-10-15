@@ -8,23 +8,24 @@ namespace Proximity_Matrix_LIB
 {
     public class Person
     {
-        private string refund;
-        private string marital;
-        private int tax;
-        private string cheat;
+     
+        private string feat1;
+        private string feat2;
+        private int feat3;
+        private string kelas;
 
-        public Person(string refund, string marital, int tax, string cheat)
+        public Person(string feat1, string feat2, int feat3, string kelas)
         {
-            Refund = refund;
-            Marital = marital;
-            Tax = tax;
-            Cheat = cheat;
+           Feat1 = feat1;
+            Feat2 = feat2;
+            Feat3 = feat3;
+            Class = kelas;
         }
 
-        public string Refund { get => refund; set => refund = value; }
-        public string Marital { get => marital; set => marital = value; }
-        public int Tax { get => tax; set => tax = value; }
-        public string Cheat { get => cheat; set => cheat = value; }
+        public string Feat1 { get => feat1; set => feat1 = value; }
+        public string Feat2 { get => feat2; set => feat2 = value; }
+        public int Feat3 { get => feat3; set => feat3 = value; }
+        public string Class { get => kelas; set => kelas = value; }
 
     }
 }
