@@ -309,5 +309,37 @@ namespace Proximity_Matrix_LIB
             }
             return bestSplit;
         }
+        public static string FindBestSplitFeat(List<Person> inputListPerson)
+        {
+            string feat = "";
+
+            List<double> listOfGini = new List<double>();
+            listOfGini.Add(CalcGiniFeat1(inputListPerson));
+            listOfGini.Add(CalcGiniFeat2(inputListPerson));
+            listOfGini.Add(CalcGiniFeat3(inputListPerson));
+
+            int min = 1;
+            int i = 0;
+            int output = 0;
+            while(listOfGini[i] < min)
+            {
+                listOfGini[i] = min;
+                i++;
+                output = i;
+            }
+            if(output == 0)
+            {
+                feat = "feat1";
+            }
+            else if (output == 1)
+            {
+                feat = "feat2";
+            }
+            else if (output == 2)
+            {
+                feat = "feat3";
+            }
+            return feat;
+        }
     }
 }
