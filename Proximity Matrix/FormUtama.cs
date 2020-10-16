@@ -139,7 +139,8 @@ namespace Proximity_Matrix
 
         private void buttonBestSplit_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString();
+            textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString() + " " 
+                + BestSplit.FindBestSplitFeat(listOfData).ToString();
         }
 
         private void buttonSimpanHasil_Click(object sender, EventArgs e)
