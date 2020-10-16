@@ -139,20 +139,15 @@ namespace Proximity_Matrix
 
         private void buttonBestSplit_Click(object sender, EventArgs e)
         {
-           
-                textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString() + " "
-               + BestSplit.FindBestSplitFeat(listOfData).ToString();
-            
+            textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString();
         }
 
-        private void buttonSimpanHasil_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Title = "Save List";
-                saveFileDialog.FileName = "Hasil.txt";
-                saveFileDialog.Filter = "Txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 saveFileDialog.CheckPathExists = true;
                 saveFileDialog.DefaultExt = ".txt";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -184,12 +179,6 @@ namespace Proximity_Matrix
                 MessageBox.Show(ex.Message);
             }
            
-        }
-
-        private void buttonBestSplitData2_Click(object sender, EventArgs e)
-        {
-            textBoxOutput.Text = BestSplit.FindBestSplitYesNo(listOfData).ToString("F4") + " "
-          + BestSplit.FindBestSplitFeat(listOfData).ToString();
         }
     }
 }
