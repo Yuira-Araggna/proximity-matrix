@@ -35,6 +35,28 @@ namespace Proximity_Matrix_LIB
             parentCount = yes + no;
             return giniParent;
         }
+
+        public static double CalcGiniParentYesNo(List<Person> inputListPerson)
+        {
+            int c0, c1;
+            c0 = 0;
+            c1 = 0;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Class.ToLower() == "yes")
+                {
+                    c0++;
+                }
+                else
+                {
+                    c1++;
+                }
+            }
+            double giniParent = 1 - Math.Pow((double)c0 / (c0 + c1), 2) - Math.Pow((double)c1 / (c0 + c1), 2);
+            parentCount = c0 + c1;
+            return giniParent;
+        }
         #endregion
 
         #region Feat1
@@ -308,6 +330,321 @@ namespace Proximity_Matrix_LIB
                 }
             }
             return bestSplit;
+        }
+        public static string FindBestSplitFeat(List<Person> inputListPerson)
+        {
+            string feat = "";
+
+            List<double> listOfGini = new List<double>();
+            listOfGini.Add(CalcGiniFeat1(inputListPerson));
+            listOfGini.Add(CalcGiniFeat2(inputListPerson));
+            listOfGini.Add(CalcGiniFeat3(inputListPerson));
+
+            int min = 1;
+            int i = 0;
+            int output = 0;
+            while(listOfGini[i] < min)
+            {
+                listOfGini[i] = min;
+                i++;
+                output = i;
+            }
+            if(output == 0)
+            {
+                feat = "feat1";
+            }
+            else if (output == 1)
+            {
+                feat = "feat2";
+            }
+            else if (output == 2)
+            {
+                feat = "feat3";
+            }
+            return feat;
+        }
+        #region Feat1 YesNo
+        public static double CalcGiniNode0Feat1YesNo(List<Person> inputListPerson)
+        {
+            int n0c0, n0c1;
+            n0c0 = 0;
+            n0c1 = 0;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "c0")
+                {
+                    n0c0++;
+                }
+                else if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "c1")
+                {
+                    n0c1++;
+                }
+            }
+            int totalN1 = n0c0 + n0c1;
+            double giniNode0Feat1 = 1 - Math.Pow((double)n0c0 / totalN1, 2) - Math.Pow((double)n0c1 / totalN1, 2);
+            node0Count = totalN1;
+            return giniNode0Feat1;
+        }
+
+        public static double CalcGiniNode1Feat1YesNo(List<Person> inputListPerson)
+        {
+            int n1c0, n1c1;
+            n1c0 = 0;
+            n1c1 = 0;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "c0")
+                {
+                    n1c0++;
+                }
+                else if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "c1")
+                {
+                    n1c1++;
+                }
+            }
+            int totalN1 = n1c0 + n1c1;
+            double giniNode1Feat1 = 1 - Math.Pow((double)n1c0 / totalN1, 2) - Math.Pow((double)n1c1 / totalN1, 2);
+            node1Count = totalN1;
+            return giniNode1Feat1;
+        }
+
+        public static double CalcGiniFeat1YesNo(List<Person> inputListPerson)
+        {
+            double giniParent, giniNode0, giniNode1;
+            giniParent = CalcGiniParentYesNo(inputListPerson);
+            giniNode0 = CalcGiniNode0Feat1YesNo(inputListPerson);
+            giniNode1 = CalcGiniNode1Feat1YesNo(inputListPerson);
+
+            double giniChildren = (double)node0Count / parentCount * giniNode0 + (double)node1Count / parentCount * giniNode1;
+
+            return giniChildren;
+        }
+        #endregion
+
+        #region Feat2 Selain Marital Status
+        public static double CalcGiniNode0Feat2YesNo(List<Person> inputListPerson)
+        {
+            int n0c0, n0c1;
+            n0c0 = 0;
+            n0c1 = 0;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "c0")
+                {
+                    n0c0++;
+                }
+                else if (person.Feat1.ToLower() == "yes" && person.Class.ToLower() == "c1")
+                {
+                    n0c1++;
+                }
+            }
+            int totalN1 = n0c0 + n0c1;
+            double giniNode0Feat1 = 1 - Math.Pow((double)n0c0 / totalN1, 2) - Math.Pow((double)n0c1 / totalN1, 2);
+            node0Count = totalN1;
+            return giniNode0Feat1;
+        }
+
+        public static double CalcGiniNode1Feat2YesNo(List<Person> inputListPerson)
+        {
+            int n1c0, n1c1;
+            n1c0 = 0;
+            n1c1 = 0;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "c0")
+                {
+                    n1c0++;
+                }
+                else if (person.Feat1.ToLower() == "no" && person.Class.ToLower() == "c1")
+                {
+                    n1c1++;
+                }
+            }
+            int totalN1 = n1c0 + n1c1;
+            double giniNode1Feat1 = 1 - Math.Pow((double)n1c0 / totalN1, 2) - Math.Pow((double)n1c1 / totalN1, 2);
+            node1Count = totalN1;
+            return giniNode1Feat1;
+        }
+
+        public static double CalcGiniFeat2YesNo(List<Person> inputListPerson)
+        {
+            double giniParent, giniNode0, giniNode1;
+            giniParent = CalcGiniParentYesNo(inputListPerson);
+            giniNode0 = CalcGiniNode0Feat2YesNo(inputListPerson);
+            giniNode1 = CalcGiniNode1Feat2YesNo(inputListPerson);
+
+            double giniChildren = (double)node0Count / parentCount * giniNode0 + (double)node1Count / parentCount * giniNode1;
+
+            return giniChildren;
+        }
+        #endregion
+        #region Feat3 YesNo
+        public static double CalcGiniNode0Feat3YesNo(List<Person> inputListPerson, int inputSplit)
+        {
+            int n0c0, n0c1;
+            n0c0 = 0;
+            n0c1 = 0;
+
+            double giniNode0Feat3;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat3 <= inputSplit && person.Class.ToLower() == "c0")
+                {
+                    n0c0++;
+                }
+                else if (person.Feat3 <= inputSplit && person.Class.ToLower() == "c1")
+                {
+                    n0c1++;
+                }
+            }
+
+            if (n0c0 == 0 && n0c1 == 0)
+            {
+                giniNode0Feat3 = 0;
+            }
+            else if (n0c0 == 0)
+            {
+                giniNode0Feat3 = 1 - Math.Pow((double)n0c1 / (n0c0 + n0c1), 2);
+            }
+            else
+            {
+                giniNode0Feat3 = 1 - Math.Pow((double)n0c0 / (n0c0 + n0c1), 2) - Math.Pow((double)n0c0 / (n0c0 + n0c1), 2);
+            }
+
+            node0Count = n0c0 + n0c1;
+            return giniNode0Feat3;
+        }
+
+        public static double CalcGiniNode1Feat3YesNo(List<Person> inputListPerson, int inputSplit)
+        {
+            int n1c0, n1c1;
+            n1c0 = 0;
+            n1c1 = 0;
+
+            double giniNode1Feat3;
+
+            foreach (Person person in inputListPerson)
+            {
+                if (person.Feat3 > inputSplit && person.Class.ToLower() == "c0")
+                {
+                    n1c0++;
+                }
+                else if (person.Feat3 > inputSplit && person.Class.ToLower() == "c1")
+                {
+                    n1c1++;
+                }
+            }
+
+            if (n1c0 == 0 && n1c1 == 0)
+            {
+                giniNode1Feat3 = 0;
+            }
+            else if (n1c0 == 0)
+            {
+                giniNode1Feat3 = 1 - Math.Pow((double)n1c1 / (n1c0 + n1c1), 2);
+            }
+            else
+            {
+                giniNode1Feat3 = 1 - Math.Pow((double)n1c0 / (n1c0 + n1c1), 2) - Math.Pow((double)n1c1 / (n1c0 + n1c1), 2);
+            }
+
+            node1Count = n1c0 + n1c1;
+            return giniNode1Feat3;
+        }
+
+        public static double CalcGiniFeat3YesNo(List<Person> inputListPerson)
+        {
+            double giniFeat3 = 0;
+            double giniParent = CalcGiniParent(inputListPerson);
+
+            inputListPerson.Sort(delegate (Person x, Person y)
+            {
+                if (x.Feat3 == 0 && y.Feat3 == 0) return 0;
+                else if (x.Feat3 == 0) return -1;
+                else if (y.Feat3 == 0) return 1;
+                else return x.Feat3.CompareTo(y.Feat3);
+            });
+
+            for (int i = 1; i < inputListPerson.Count; i++)
+            {
+                int split = (inputListPerson[i - 1].Feat3 + inputListPerson[i].Feat3) / 2;
+                double giniNode0 = CalcGiniNode0Feat3YesNo(inputListPerson, split);
+                double giniNode1 = CalcGiniNode1Feat3YesNo(inputListPerson, split);
+
+                double giniChildren = (double)node0Count / parentCount * giniNode0 + (double)node1Count / parentCount * giniNode1;
+
+                if (giniFeat3 == 0)
+                {
+                    giniFeat3 = giniChildren;
+                }
+                else if (giniFeat3 > giniChildren)
+                {
+                    giniFeat3 = giniChildren;
+                }
+            }
+            return giniFeat3;
+        }
+        #endregion
+
+
+        public static double FindBestSplitYesNo(List<Person> inputListPerson)
+        {
+            double bestSplit = 0;
+
+            List<double> listOfGiniChildren = new List<double>();
+            listOfGiniChildren.Add(CalcGiniFeat1YesNo(inputListPerson));
+            listOfGiniChildren.Add(CalcGiniFeat2YesNo(inputListPerson));
+            listOfGiniChildren.Add(CalcGiniFeat3YesNo(inputListPerson));
+
+            for (int i = 0; i < listOfGiniChildren.Count; i++)
+            {
+                if (bestSplit == 0)
+                {
+                    bestSplit = listOfGiniChildren[i];
+                }
+                else if (bestSplit > listOfGiniChildren[i])
+                {
+                    bestSplit = listOfGiniChildren[i];
+                }
+            }
+            return bestSplit;
+        }
+       public static string FindBestSplitFeatYesNo(List<Person> inputListPerson)
+        {
+            string feat = "";
+
+            List<double> listOfGini = new List<double>();
+            listOfGini.Add(CalcGiniFeat1YesNo(inputListPerson));
+            listOfGini.Add(CalcGiniFeat2YesNo(inputListPerson));
+            listOfGini.Add(CalcGiniFeat3YesNo(inputListPerson));
+
+            int min = 1;
+            int i = 0;
+            int output = 0;
+            while (listOfGini[i] < min)
+            {
+                listOfGini[i] = min;
+                i++;
+                output = i;
+            }
+            if (output == 0)
+            {
+                feat = "feat1";
+            }
+            else if (output == 1)
+            {
+                feat = "feat2";
+            }
+            else if (output == 2)
+            {
+                feat = "feat3";
+            }
+            return feat;
         }
     }
 }
