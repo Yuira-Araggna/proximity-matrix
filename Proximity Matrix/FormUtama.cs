@@ -137,13 +137,7 @@ namespace Proximity_Matrix
             }
         }
 
-        private void buttonBestSplit_Click(object sender, EventArgs e)
-        {
-           
-                textBoxOutput.Text = BestSplit.FindBestSplit(listOfData).ToString() + " "
-               + BestSplit.FindBestSplitFeat(listOfData).ToString();
-            
-        }
+       
 
         private void buttonSimpanHasil_Click(object sender, EventArgs e)
         {
@@ -172,10 +166,12 @@ namespace Proximity_Matrix
                         }
                         line += "\n";
                     }
-                    FileStream file = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
-                    BinaryFormatter binary = new BinaryFormatter();
-                    binary.Serialize(file, line );
-                    file.Close();
+                    using(StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        sw.Write(line);
+                        sw.Flush();
+                        sw.Close();
+                    }
                 }
             }
             catch (Exception ex)
@@ -186,10 +182,6 @@ namespace Proximity_Matrix
            
         }
 
-        private void buttonBestSplitData2_Click(object sender, EventArgs e)
-        {
-            textBoxOutput.Text = BestSplit.FindBestSplitYesNo(listOfData).ToString("F4") + " "
-          + BestSplit.FindBestSplitFeat(listOfData).ToString();
-        }
+        
     }
 }
